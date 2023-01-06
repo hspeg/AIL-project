@@ -54,3 +54,21 @@ def cv_scores(model, param_grid, score, x_train, y_train):
     plt.xlabel(param_name); plt.ylabel(score)
     plt.title("Cross-validation score")
     plt.show()
+
+def evaluation_metrics_ul(model, x_train, x_test, y_train, y_test):
+    # prediction:
+    y_pred_train = model.predict(x_train)
+    y_pred_test = model.predict(x_test)
+    # accuracy and sensitivity
+    accuracy = accuracy_score(y_test, y_pred_test)
+    sensitivity = recall_score(y_test, y_pred_test)
+    # classification reports:
+    print("TRAIN SET REPORT:")
+    names = ["surv. status >= 5 years", "surv. status < 5 years"]
+    print(classification_report(y_train, y_pred_train, target_names=names))
+    #
+    print("TEST SET REPORT (PREDICTION):")
+    c_report_pred = classification_report(y_test, y_pred_test, target_names=names)
+    print(c_report_pred)
+    
+    return c_report_pred
